@@ -4,8 +4,9 @@ from sqlalchemy.orm import DeclarativeBase, sessionmaker
 from .config import settings
 
 # SQLALCHEMY_DATABASE_URL = "sqlite:///app/fastapi.db"
-SQLALCHEMY_DATABASE_URL = settings.sqlalchemy_database_url
-engine = create_engine(SQLALCHEMY_DATABASE_URL)
+# engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False})
+DATABASE_URL = settings.database_url
+engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 
@@ -16,6 +17,6 @@ class Base(DeclarativeBase):
 async def get_db():
     db = SessionLocal()
     try:
-        yield db
+        yield
     finally:
-        db.close()
+        db.close() 
