@@ -9,7 +9,7 @@ on:
       - main
 
 jobs:
-  job1:
+  build:
     env:
       SECRET_KEY: ${{ secrets.SECRET_KEY }}
       ALGORITHM: ${{ secrets.ALGORITHM }}
@@ -47,6 +47,41 @@ jobs:
         run: |
           pip install pytest
           pytest
+  
+  # deploy:
+  #   needs: build
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v2
+  #     - name: Install Python version 3.11
+  #       uses: actions/setup-python@v2
+  #       with:
+  #         python-version: '3.11'
+  #     - name: Update pip 
+  #       run: python -m pip install --upgrade pip
+  #     - name: Install dependencies
+  #       run: pip install -r requirements.txt
+  #     - name: Deploy to Heroku
+  #       uses: akhileshns/heroku-deploy@v3.12.12
+  #       with:
+  #         heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+  #         heroku_app_name: "fastapi-test"
+  #         heroku_email: ""
 
+  #     - name: deploy to ubuntu server
+  #       uses: appleboy/ssh-action@master
+  #       with:
+  #         host: ${{secrets.PROD_HOST}}
+  #         username: ${{secrets.PROD_USERNAME}}
+  #         password: ${{secrets.PROD_PASSWORD}}
+  #         script: |
+  #           cd app/src
+  #           git pull
+  #           echo ${{secrets.PROD_PASSWORD}} | sudo -S systemctl restart api
+          # login to our ubuntu
+          # cd /app/src
+          # git pull
+          # systemctl restart api
       
     
